@@ -40,7 +40,7 @@ function toPlan(row: PlanRow): Plan {
 }
 
 const SELECT_COLUMNS =
-  "id, group_id, idea_id, date, start_time, end_time, location, note, created_at, ideas(title)";
+  "id, group_id, idea_id, date, start_time, end_time, location, note, created_at, ideas!idea_id(title)";
 
 export async function createPlan(params: {
   groupId: string;

@@ -64,7 +64,7 @@ export async function listAvailabilityByGroup(groupId: string): Promise<Availabi
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("availability")
-    .select("id, group_id, member_id, date, start_time, end_time, note, created_at, members(name)")
+    .select("id, group_id, member_id, date, start_time, end_time, note, created_at, members!member_id(name)")
     .eq("group_id", groupId)
     .order("date", { ascending: true })
     .order("start_time", { ascending: true });

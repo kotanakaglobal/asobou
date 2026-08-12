@@ -39,7 +39,7 @@ export async function createIdea(params: {
       title: params.title,
       normalized_title: normalizedTitle,
     })
-    .select("id, group_id, member_id, title, created_at, members(name)")
+    .select("id, group_id, member_id, title, created_at, members!member_id(name)")
     .single();
 
   if (error) {
@@ -66,7 +66,7 @@ export async function listIdeasByGroup(groupId: string): Promise<Idea[]> {
 
   const { data: ideaRows, error: ideaError } = await supabase
     .from("ideas")
-    .select("id, group_id, member_id, title, created_at, members(name)")
+    .select("id, group_id, member_id, title, created_at, members!member_id(name)")
     .eq("group_id", groupId);
 
   if (ideaError) throw new Error(`やりたいことの取得に失敗しました: ${ideaError.message}`);
@@ -106,7 +106,7 @@ export async function getIdeaWithVotes(
 
   const { data: ideaRow, error: ideaError } = await supabase
     .from("ideas")
-    .select("id, group_id, member_id, title, created_at, members(name)")
+    .select("id, group_id, member_id, title, created_at, members!member_id(name)")
     .eq("group_id", groupId)
     .eq("id", ideaId)
     .maybeSingle();
@@ -116,7 +116,7 @@ export async function getIdeaWithVotes(
 
   const { data: voteRows, error: voteError } = await supabase
     .from("idea_votes")
-    .select("idea_id, member_id, members(name)")
+    .select("idea_id, member_id, members!member_id(name)")
     .eq("idea_id", ideaId);
 
   if (voteError) throw new Error(`投票の取得に失敗しました: ${voteError.message}`);
