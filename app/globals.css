@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/* Asobou always uses a single light, friendly palette — no dark mode. */
+@theme {
+  --color-brand-50: #fff4ec;
+  --color-brand-100: #ffe4d1;
+  --color-brand-400: #ff9a62;
+  --color-brand-500: #ff7a45;
+  --color-brand-600: #e9612b;
+  --color-brand-700: #c74e1f;
+
+  --color-mint-50: #eafbf7;
+  --color-mint-100: #dff7f1;
+  --color-mint-500: #14b8a6;
+  --color-mint-600: #0d9488;
+  --color-mint-700: #0b7c72;
+
+  --color-ink: #22262b;
+  --color-ink-soft: #5b6169;
+  --color-ink-faint: #8b9198;
+  --color-paper: #fffdfb;
+  --color-card: #ffffff;
+  --color-line: #ece6e1;
+  --color-danger: #e0403f;
+  --color-danger-soft: #fdeceb;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family:
+    var(--font-geist-sans),
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Noto Sans JP",
+    sans-serif;
+}
