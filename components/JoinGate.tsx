@@ -70,8 +70,9 @@ export function JoinGate({
         token={token}
         groupName={groupName}
         onJoined={(joined) => {
-          saveStoredMember(token, joined);
-          setMember(joined);
+          const withGroupName = { ...joined, groupName };
+          saveStoredMember(token, withGroupName);
+          setMember(withGroupName);
           setStatus("joined");
         }}
       />

@@ -1,4 +1,5 @@
 import { LinkButton } from "@/components/ui/Button";
+import { MyGroupsList } from "@/components/MyGroupsList";
 
 export default function LandingPage() {
   return (
@@ -13,6 +14,8 @@ export default function LandingPage() {
             次の遊びを決めよう。
           </p>
         </div>
+
+        <MyGroupsList />
 
         <LinkButton href="/create" className="text-lg">
           グループを作る

@@ -13,7 +13,11 @@ export function CreateGroupForm() {
 
   useEffect(() => {
     if (state.error === null && state.token && state.memberId && state.memberName) {
-      saveStoredMember(state.token, { memberId: state.memberId, memberName: state.memberName });
+      saveStoredMember(state.token, {
+        memberId: state.memberId,
+        memberName: state.memberName,
+        groupName: state.groupName,
+      });
       router.push(`/g/${state.token}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -12,6 +12,7 @@ export type CreateGroupState = {
   token?: string;
   memberId?: string;
   memberName?: string;
+  groupName?: string;
 };
 
 export async function createGroupAction(
@@ -25,7 +26,13 @@ export async function createGroupAction(
     const group = await createGroup(groupName);
     const member = await createMember(group.id, memberName);
 
-    return { error: null, token: group.shareToken, memberId: member.id, memberName: member.name };
+    return {
+      error: null,
+      token: group.shareToken,
+      memberId: member.id,
+      memberName: member.name,
+      groupName: group.name,
+    };
   } catch (err) {
     return { error: toErrorMessage(err) };
   }
