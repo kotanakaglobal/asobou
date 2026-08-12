@@ -34,7 +34,9 @@ export default async function GroupTopPage({ params }: PageProps<"/g/[token]">) 
       <header className="flex items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-extrabold text-ink">{group.name}</h1>
-          <p className="mt-0.5 text-sm text-ink-soft">{members.length}人が参加中</p>
+          <Link href={`/g/${token}/members`} className="mt-0.5 block w-fit text-sm text-ink-soft hover:text-brand-600 hover:underline">
+            {members.length}人が参加中 →
+          </Link>
         </div>
         <InviteButton token={token} groupName={group.name} />
       </header>

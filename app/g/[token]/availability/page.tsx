@@ -6,6 +6,7 @@ import { formatDateJp, formatTimeRange } from "@/lib/format";
 import { Card } from "@/components/ui/Card";
 import { LinkButton } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { AvailabilityEntryRow } from "@/components/AvailabilityEntryRow";
 
 export default async function AvailabilityPage({ params }: PageProps<"/g/[token]/availability">) {
   const { token } = await params;
@@ -34,15 +35,9 @@ export default async function AvailabilityPage({ params }: PageProps<"/g/[token]
                   {summary.availableCount}/{summary.totalMembers}人
                 </span>
               </div>
-              <ul className="mt-2 flex flex-col gap-1">
+              <ul className="mt-2 flex flex-col gap-2">
                 {summary.entries.map((entry) => (
-                  <li key={entry.id} className="flex items-baseline justify-between text-sm text-ink-soft">
-                    <span className="font-bold text-ink">{entry.memberName}</span>
-                    <span>
-                      {formatTimeRange(entry.startTime, entry.endTime)}
-                      {entry.note ? `（${entry.note}）` : ""}
-                    </span>
-                  </li>
+                  <AvailabilityEntryRow key={entry.id} token={token} entry={entry} />
                 ))}
               </ul>
               <div className="mt-3 rounded-xl bg-mint-50 px-3 py-2 text-sm font-bold text-mint-700">

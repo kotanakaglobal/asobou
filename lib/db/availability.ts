@@ -1,6 +1,7 @@
 import "server-only";
 import { getSupabaseClient } from "@/lib/supabase/server";
 import { computeCommonAvailability, type MemberInterval } from "@/lib/availability";
+import { ValidationError } from "@/lib/validation";
 import type { Availability, DateAvailabilitySummary } from "@/lib/types";
 
 type AvailabilityRow = {
@@ -58,6 +59,55 @@ export async function addAvailability(params: {
   });
 
   if (error) throw new Error(`空き時間の登録に失敗しました: ${error.message}`);
+}
+
+export async function updateAvailability(params: {
+  groupId: string;
+  availabilityId: string;
+  memberId: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  note: string | null;
+}): Promise<void> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("availability")
+    .update({
+      date: params.date,
+      start_time: params.startTime,
+      end_time: params.endTime,
+      note: params.note,
+    })
+    .eq("id", params.availabilityId)
+    .eq("group_id", params.groupId)
+    .eq("member_id", params.memberId)
+    .select("id");
+
+  if (error) throw new Error(`空き時間の更新に失敗しました: ${error.message}`);
+  if (!data || data.length === 0) {
+    throw new ValidationError("この空き時間を編集する権限がありません。");
+  }
+}
+
+export async function deleteAvailability(params: {
+  groupId: string;
+  availabilityId: string;
+  memberId: string;
+}): Promise<void> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("availability")
+    .delete()
+    .eq("id", params.availabilityId)
+    .eq("group_id", params.groupId)
+    .eq("member_id", params.memberId)
+    .select("id");
+
+  if (error) throw new Error(`空き時間の削除に失敗しました: ${error.message}`);
+  if (!data || data.length === 0) {
+    throw new ValidationError("この空き時間を削除する権限がありません。");
+  }
 }
 
 export async function listAvailabilityByGroup(groupId: string): Promise<Availability[]> {

@@ -1,5 +1,6 @@
 import "server-only";
 import { getSupabaseClient } from "@/lib/supabase/server";
+import { ValidationError } from "@/lib/validation";
 import type { Member } from "@/lib/types";
 
 type MemberRow = {
@@ -35,6 +36,36 @@ export async function listMembers(groupId: string): Promise<Member[]> {
 
   if (error) throw new Error(`メンバーの取得に失敗しました: ${error.message}`);
   return (data as MemberRow[]).map(toMember);
+}
+
+export async function renameMember(groupId: string, memberId: string, name: string): Promise<void> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("members")
+    .update({ name })
+    .eq("id", memberId)
+    .eq("group_id", groupId)
+    .select("id");
+
+  if (error) throw new Error(`名前の変更に失敗しました: ${error.message}`);
+  if (!data || data.length === 0) {
+    throw new ValidationError("このメンバーが見つかりませんでした。");
+  }
+}
+
+export async function deleteMember(groupId: string, memberId: string): Promise<void> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("members")
+    .delete()
+    .eq("id", memberId)
+    .eq("group_id", groupId)
+    .select("id");
+
+  if (error) throw new Error(`メンバーの削除に失敗しました: ${error.message}`);
+  if (!data || data.length === 0) {
+    throw new ValidationError("このメンバーが見つかりませんでした。");
+  }
 }
 
 /**
