@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { useMember } from "@/components/JoinGate";
 import { addIdeaAction } from "@/lib/actions/ideas";
 import { Button } from "@/components/ui/Button";
-import { Field, TextInput, ErrorText } from "@/components/ui/Field";
+import { Field, TextInput, TextArea, ErrorText } from "@/components/ui/Field";
 
 export function AddIdeaForm({ token }: { token: string }) {
   const member = useMember();
@@ -24,6 +24,10 @@ export function AddIdeaForm({ token }: { token: string }) {
           maxLength={80}
           autoFocus
         />
+      </Field>
+
+      <Field label="メモ" htmlFor="note" optional>
+        <TextArea id="note" name="note" placeholder="場所の候補や補足があれば" rows={3} maxLength={300} />
       </Field>
 
       <ErrorText>{state.error}</ErrorText>

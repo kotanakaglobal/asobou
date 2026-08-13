@@ -24,6 +24,8 @@ export default async function IdeaDetailPage({ params }: PageProps<"/g/[token]/i
           <p className="mt-1 text-sm text-ink-faint">{idea.memberName}が追加</p>
         </div>
 
+        {idea.note && <p className="whitespace-pre-wrap text-sm text-ink">{idea.note}</p>}
+
         <div>
           <p className="text-sm font-bold text-ink-soft">
             {idea.voteCount}人がやりたい

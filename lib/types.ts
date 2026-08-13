@@ -30,6 +30,7 @@ export type Idea = {
   memberId: string;
   memberName: string;
   title: string;
+  note: string | null;
   createdAt: string;
   voteCount: number;
 };

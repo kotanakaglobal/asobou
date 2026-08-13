@@ -48,6 +48,7 @@ export type Database = {
           group_id: string;
           member_id: string;
           title: string;
+          note: string | null;
           normalized_title: string;
           created_at: string;
         },
@@ -56,6 +57,7 @@ export type Database = {
           group_id: string;
           member_id: string;
           title: string;
+          note?: string | null;
           normalized_title: string;
           created_at?: string;
         }

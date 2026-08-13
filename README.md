@@ -13,7 +13,7 @@ npm install
 ### 2. Supabaseプロジェクトを用意する
 
 1. [Supabase](https://supabase.com)で新規プロジェクトを作成します。
-2. Supabaseダッシュボードの SQL Editor で `supabase/migrations/0001_init.sql` の内容を実行し、テーブル（`groups` / `members` / `availability` / `ideas` / `idea_votes` / `plans`）と RLS 設定を作成します。
+2. Supabaseダッシュボードの SQL Editor で `supabase/migrations/` 配下のSQLファイルを**番号順に**実行し、テーブル（`groups` / `members` / `availability` / `ideas` / `idea_votes` / `plans`）と RLS 設定を作成します（`0001_init.sql` → `0002_idea_note.sql` の順）。
    - Supabase CLI を使う場合は `supabase db push` でも適用できます。
 3. Project Settings → API から以下を控えます。
    - `Project URL`
@@ -51,8 +51,8 @@ npm run dev
 - グループ作成（グループ名 + 自分の名前 → 招待用URL発行）
 - URLだけで参加（名前を入力するだけ、ログイン・パスワード不要）
 - 空き時間の登録・一覧表示・日付ごとの共通空き時間の自動計算・自分が登録した空き時間の編集/削除
-- やりたいことの自由入力・一覧・重複タイトルの防止（前後空白/大文字小文字を正規化して比較）
-- やりたいことへの投票・取り消し（1人1票、Optimistic UI）
+- やりたいことの自由入力（任意でメモも追加可能）・一覧・重複タイトルの防止（前後空白/大文字小文字を正規化して比較）
+- やりたいことへの投票・取り消し（1人1票、Optimistic UI、自分で追加したアイデアには自動で投票済み）
 - 「空いている人数が多い→やりたい人が多い→日付が近い」順の予定候補の自動表示
 - 予定候補日（メンバーの空き状況から `n/m人` を算出、全員空きを優先表示）を踏まえた予定作成
 - 予定の詳細表示・編集・削除
