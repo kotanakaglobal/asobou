@@ -37,8 +37,8 @@ export function MemberRow({ token, target }: { token: string; target: Member }) 
 
   function handleDelete() {
     const confirmMessage = isSelf
-      ? "グループから抜けますか？登録した空き時間・やりたいこと・投票もすべて削除されます。"
-      : `${target.name}さんをグループから削除しますか？登録した空き時間・やりたいこと・投票もすべて削除されます。`;
+      ? "グループから抜けますか？登録した空いてる日・やりたいこと・投票もすべて削除されます。"
+      : `${target.name}さんをグループから削除しますか？登録した空いてる日・やりたいこと・投票もすべて削除されます。`;
     if (!window.confirm(confirmMessage)) return;
 
     startDeleteTransition(async () => {

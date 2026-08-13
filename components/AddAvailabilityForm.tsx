@@ -16,25 +16,16 @@ export function AddAvailabilityForm({ token }: { token: string }) {
       <input type="hidden" name="memberId" value={member.memberId} />
 
       <Field label="日付" htmlFor="date">
-        <TextInput id="date" name="date" type="date" required />
+        <TextInput id="date" name="date" type="date" required autoFocus />
       </Field>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="開始時間" htmlFor="startTime">
-          <TextInput id="startTime" name="startTime" type="time" required />
-        </Field>
-        <Field label="終了時間" htmlFor="endTime">
-          <TextInput id="endTime" name="endTime" type="time" required />
-        </Field>
-      </div>
-
       <Field label="メモ" htmlFor="note" optional>
-        <TextInput id="note" name="note" placeholder="たとえば「夜だけなら」" maxLength={100} />
+        <TextInput id="note" name="note" placeholder="たとえば「午前だけ」「19時以降なら」" maxLength={100} />
       </Field>
 
       <ErrorText>{state.error}</ErrorText>
       <Button type="submit" disabled={pending}>
-        {pending ? "保存中..." : "空きを追加"}
+        {pending ? "保存中..." : "空いてる日を追加"}
       </Button>
     </form>
   );

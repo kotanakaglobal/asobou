@@ -40,12 +40,17 @@ function toAvailability(row: AvailabilityRow): Availability {
   };
 }
 
+// Availability is registered by date only now (no time-range input). The
+// underlying columns are still NOT NULL, so every row is stored as a
+// full-day placeholder — this keeps the schema (and any pre-existing rows
+// with real time ranges) untouched while the UI stops asking for times.
+const ALL_DAY_START = "00:00";
+const ALL_DAY_END = "23:59";
+
 export async function addAvailability(params: {
   groupId: string;
   memberId: string;
   date: string;
-  startTime: string;
-  endTime: string;
   note: string | null;
 }): Promise<void> {
   const supabase = getSupabaseClient();
@@ -53,8 +58,8 @@ export async function addAvailability(params: {
     group_id: params.groupId,
     member_id: params.memberId,
     date: params.date,
-    start_time: params.startTime,
-    end_time: params.endTime,
+    start_time: ALL_DAY_START,
+    end_time: ALL_DAY_END,
     note: params.note,
   });
 
@@ -66,8 +71,6 @@ export async function updateAvailability(params: {
   availabilityId: string;
   memberId: string;
   date: string;
-  startTime: string;
-  endTime: string;
   note: string | null;
 }): Promise<void> {
   const supabase = getSupabaseClient();
@@ -75,8 +78,6 @@ export async function updateAvailability(params: {
     .from("availability")
     .update({
       date: params.date,
-      start_time: params.startTime,
-      end_time: params.endTime,
       note: params.note,
     })
     .eq("id", params.availabilityId)

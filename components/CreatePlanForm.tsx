@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { createPlanAction } from "@/lib/actions/plans";
-import { formatDateJp, formatTimeRange } from "@/lib/format";
+import { formatDateJp } from "@/lib/format";
 import { Button } from "@/components/ui/Button";
 import { Field, TextInput, TextArea, ErrorText } from "@/components/ui/Field";
 import type { DateAvailabilitySummary } from "@/lib/types";
@@ -25,15 +25,11 @@ export function CreatePlanForm({
 
   const top = dateCandidates[0];
   const [date, setDate] = useState(top?.date ?? "");
-  const [startTime, setStartTime] = useState(top?.commonRanges[0]?.start ?? "");
-  const [endTime, setEndTime] = useState(top?.commonRanges[0]?.end ?? "");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   function pickCandidate(candidate: DateAvailabilitySummary) {
     setDate(candidate.date);
-    if (candidate.commonRanges[0]) {
-      setStartTime(candidate.commonRanges[0].start);
-      setEndTime(candidate.commonRanges[0].end);
-    }
   }
 
   return (
@@ -65,14 +61,7 @@ export function CreatePlanForm({
                     date === candidate.date ? "border-brand-500 bg-brand-50" : "border-line bg-white"
                   }`}
                 >
-                  <div>
-                    <p className="font-bold text-ink">{formatDateJp(candidate.date)}</p>
-                    {candidate.commonRanges.length > 0 && (
-                      <p className="text-xs text-ink-faint">
-                        {candidate.commonRanges.map((r) => formatTimeRange(r.start, r.end)).join("、")}
-                      </p>
-                    )}
-                  </div>
+                  <p className="font-bold text-ink">{formatDateJp(candidate.date)}</p>
                   <span
                     className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold ${
                       isFull ? "bg-mint-500 text-white" : "bg-mint-50 text-mint-700"

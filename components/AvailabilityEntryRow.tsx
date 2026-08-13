@@ -3,7 +3,6 @@
 import { useActionState, useEffect, useState, useTransition } from "react";
 import { useMember } from "@/components/JoinGate";
 import { updateAvailabilityAction, deleteAvailabilityAction } from "@/lib/actions/availability";
-import { formatTimeRange } from "@/lib/format";
 import { Button } from "@/components/ui/Button";
 import { Field, TextInput, ErrorText } from "@/components/ui/Field";
 import type { Availability } from "@/lib/types";
@@ -32,7 +31,7 @@ export function AvailabilityEntryRow({ token, entry }: { token: string; entry: A
   }, [pending]);
 
   function handleDelete() {
-    if (!window.confirm("この空き時間を削除しますか？")) return;
+    if (!window.confirm("この空いてる日を削除しますか？")) return;
     startDeleteTransition(async () => {
       const result = await deleteAvailabilityAction(token, entry.id, member.memberId);
       if (result.error) setDeleteError(result.error);
@@ -47,20 +46,6 @@ export function AvailabilityEntryRow({ token, entry }: { token: string; entry: A
           <Field label="日付" htmlFor={`date-${entry.id}`}>
             <TextInput id={`date-${entry.id}`} name="date" type="date" required defaultValue={entry.date} />
           </Field>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="開始時間" htmlFor={`start-${entry.id}`}>
-              <TextInput
-                id={`start-${entry.id}`}
-                name="startTime"
-                type="time"
-                required
-                defaultValue={entry.startTime}
-              />
-            </Field>
-            <Field label="終了時間" htmlFor={`end-${entry.id}`}>
-              <TextInput id={`end-${entry.id}`} name="endTime" type="time" required defaultValue={entry.endTime} />
-            </Field>
-          </div>
           <Field label="メモ" htmlFor={`note-${entry.id}`} optional>
             <TextInput id={`note-${entry.id}`} name="note" defaultValue={entry.note ?? ""} maxLength={100} />
           </Field>
@@ -81,28 +66,25 @@ export function AvailabilityEntryRow({ token, entry }: { token: string; entry: A
   return (
     <li className="flex flex-col gap-1 text-sm text-ink-soft">
       <div className="flex items-baseline justify-between gap-2">
-        <span className="font-bold text-ink">{entry.memberName}</span>
-        <span className="flex items-center gap-2">
-          <span>
-            {formatTimeRange(entry.startTime, entry.endTime)}
-            {entry.note ? `（${entry.note}）` : ""}
-          </span>
-          {isOwner && (
-            <span className="flex items-center gap-2 text-xs font-bold">
-              <button type="button" onClick={() => setEditing(true)} className="text-brand-600 hover:underline">
-                編集
-              </button>
-              <button
-                type="button"
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className="text-danger hover:underline"
-              >
-                {isDeleting ? "削除中..." : "削除"}
-              </button>
-            </span>
-          )}
+        <span className="font-bold text-ink">
+          {entry.memberName}
+          {entry.note && <span className="ml-1.5 font-normal text-ink-faint">（{entry.note}）</span>}
         </span>
+        {isOwner && (
+          <span className="flex shrink-0 items-center gap-2 text-xs font-bold">
+            <button type="button" onClick={() => setEditing(true)} className="text-brand-600 hover:underline">
+              編集
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="text-danger hover:underline"
+            >
+              {isDeleting ? "削除中..." : "削除"}
+            </button>
+          </span>
+        )}
       </div>
       {deleteError && <p className="text-xs font-bold text-danger">{deleteError}</p>}
     </li>

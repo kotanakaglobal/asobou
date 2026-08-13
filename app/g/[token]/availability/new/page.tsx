@@ -10,7 +10,7 @@ export default async function NewAvailabilityPage({ params }: PageProps<"/g/[tok
 
   return (
     <main className="mx-auto flex w-full max-w-sm flex-1 flex-col gap-6 px-4 py-6">
-      <PageHeader title="空き時間を登録" backHref={`/g/${token}/availability`} />
+      <PageHeader title="空いてる日を登録" backHref={`/g/${token}/availability`} />
       <AddAvailabilityForm token={token} />
     </main>
   );

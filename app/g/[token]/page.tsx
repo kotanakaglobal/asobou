@@ -73,7 +73,7 @@ export default async function GroupTopPage({ params }: PageProps<"/g/[token]">) 
             </div>
           ) : (
             <p className="mt-2 text-sm text-ink-soft">
-              空き時間とやりたいことを登録すると、候補が表示されます。
+              空いてる日とやりたいことを登録すると、候補が表示されます。
             </p>
           )}
         </Card>
@@ -81,37 +81,33 @@ export default async function GroupTopPage({ params }: PageProps<"/g/[token]">) 
 
       <section className="grid grid-cols-2 gap-3">
         <LinkButton href={`/g/${token}/availability/new`} variant="primary" size="md" className="w-full">
-          空きを登録
+          空いてる日を登録
         </LinkButton>
         <LinkButton href={`/g/${token}/ideas/new`} variant="secondary" size="md" className="w-full">
           やりたいことを追加
         </LinkButton>
       </section>
 
-      <section aria-label="共通の空き時間" className="flex flex-col gap-2">
+      <section aria-label="空いている日" className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-extrabold text-ink-soft">共通の空き時間</h2>
+          <h2 className="text-sm font-extrabold text-ink-soft">空いている日</h2>
           <Link href={`/g/${token}/availability`} className="text-xs font-bold text-brand-600 hover:underline">
             すべて見る
           </Link>
         </div>
         {upcomingDates.length === 0 ? (
-          <Card className="text-sm text-ink-soft">まだ空き時間が登録されていません。</Card>
+          <Card className="text-sm text-ink-soft">まだ空いてる日が登録されていません。</Card>
         ) : (
           <div className="flex flex-col gap-2">
             {upcomingDates.map((summary) => (
               <Card key={summary.date} className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="font-bold text-ink">{formatDateJp(summary.date)}</p>
-                  <p className="text-xs text-ink-faint">
+                <p className="font-bold text-ink">{formatDateJp(summary.date)}</p>
+                <div className="text-right">
+                  <p className="text-sm font-bold text-mint-700">
                     {summary.availableCount}/{summary.totalMembers}人空き
                   </p>
+                  <p className="text-xs text-ink-faint">{summary.availableMemberNames.join("、")}</p>
                 </div>
-                <p className="text-sm font-bold text-mint-700">
-                  {summary.commonRanges.length > 0
-                    ? summary.commonRanges.map((r) => formatTimeRange(r.start, r.end)).join("、")
-                    : "重なる時間なし"}
-                </p>
               </Card>
             ))}
           </div>
